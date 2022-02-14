@@ -17,6 +17,7 @@ export class MediaMovieComponent implements OnInit, OnDestroy {
   public result: any;
   public watchMovie: any;
   public qualityProfileCustom: string;
+  public searchOriginalTitle = false;
   public isLoading = true;
   public isSaving = false;
   public trailerUrls$: Observable<any>;
@@ -40,6 +41,8 @@ export class MediaMovieComponent implements OnInit, OnDestroy {
         this.result = data;
         this.isLoading = false;
         this.watchMovie = this.getWatchMovie();
+        // populate watch media form settings
+        this.searchOriginalTitle = this.watchMovie ? this.watchMovie.search_original_title : false;
         this.qualityProfileCustom = this.watchMovie ?
           this.watchMovie.quality_profile_custom :
           this.apiService.settings.quality_profile_movies;
@@ -67,7 +70,9 @@ export class MediaMovieComponent implements OnInit, OnDestroy {
     this._changes = this.apiService.mediaUpdated$.subscribe(
       () => {
         this.ngZone.run(() => {
-          this.watchMovie = this.getWatchMovie();
+          if (this.result) {
+            this.watchMovie = this.getWatchMovie();
+          }
         });
       }
     );
@@ -78,7 +83,7 @@ export class MediaMovieComponent implements OnInit, OnDestroy {
   }
 
   public isWatchingMovie() {
-    return !!this.getWatchMovie();
+    return this.result && this.getWatchMovie();
   }
 
   public submit() {
@@ -87,10 +92,11 @@ export class MediaMovieComponent implements OnInit, OnDestroy {
     const isWatchingMovie = !this.isWatchingMovie();  // toggle to new requested state
 
     let endpoint;
-
     if (isWatchingMovie) {
       endpoint = this.apiService.watchMovie(
-        this.result.id, this.result.title, this.mediaPosterURL(this.result), this.result.release_date, this.qualityProfileCustom);
+        this.result.id, this.result.title, this.mediaPosterURL(this.result), this.result.release_date,
+        this.qualityProfileCustom, this.searchOriginalTitle,
+      );
     } else if (!isWatchingMovie && watchMovie) {
       endpoint = this.apiService.unWatchMovie(watchMovie.id);
     } else {

@@ -23,6 +23,7 @@ export class MediaTVComponent implements OnInit, OnDestroy {
   public manualSearchTmdbSeason: any;
   public manualSearchTmdbEpisode: any;
   public qualityProfileControl: FormControl;
+  public searchOriginalTitleControl: FormControl;
   public isLoading = true;
   public isSaving = false;
   public activeNav = 'details';
@@ -52,12 +53,20 @@ export class MediaTVComponent implements OnInit, OnDestroy {
           this.autoWatchFutureSeasons = watchShow.auto_watch;
         }
 
+        // define control for whether to search original title or language specific
+        this.searchOriginalTitleControl = new FormControl(
+          (watchShow && watchShow.search_original_title) ?
+            watchShow.search_original_title : false
+        );
+
         // define quality profile form control and watch for changes
         this.qualityProfileControl = new FormControl(
           (watchShow && watchShow.quality_profile_custom) ?
             watchShow.quality_profile_custom :
             this.apiService.settings.quality_profile_tv
         );
+
+        // listen for changes
         this.qualityProfileControl.valueChanges.subscribe((qualityProfile) => {
           watchShow = this._getWatchShow();
           if (watchShow) {
@@ -360,7 +369,7 @@ export class MediaTVComponent implements OnInit, OnDestroy {
   protected _watchShow(autoWatchNewSeasons?: boolean): Observable<any> {
     return this.apiService.watchTVShow(
       this.tmdbShow.id, this.tmdbShow.name, this.mediaPosterURL(this.tmdbShow), this.tmdbShow.first_air_date,
-      autoWatchNewSeasons, this.qualityProfileControl.value,
+      autoWatchNewSeasons, this.qualityProfileControl.value, this.searchOriginalTitleControl.value,
       ).pipe(
       tap((data) => {
         this.toastr.success(`Watching show ${data.name}`);

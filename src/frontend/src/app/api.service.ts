@@ -482,7 +482,9 @@ export class ApiService {
 
   public watchTVShow(
     showId: number, name: string, posterImageUrl: string,
-    releaseDate: string, autoWatchNewSeasons?: boolean, qualityProfile?: string) {
+    releaseDate: string, autoWatchNewSeasons?: boolean, qualityProfile?: string,
+    searchOriginalTitleControl?: boolean,
+    ) {
     const params = {
       tmdb_show_id: showId,
       name: name,
@@ -490,6 +492,7 @@ export class ApiService {
       release_date: releaseDate || null,
       auto_watch: !!autoWatchNewSeasons,
       quality_profile_custom: qualityProfile,
+      search_original_title: searchOriginalTitleControl || false,
     };
     return this.http.post(this.API_URL_WATCH_TV_SHOW, params, {headers: this._requestHeaders()}).pipe(
       map((data: any) => {
@@ -609,13 +612,17 @@ export class ApiService {
     );
   }
 
-  public watchMovie(movieId: number, name: string, posterImageUrl: string, releaseDate: string, qualityProfileCustom?: string) {
+  public watchMovie(
+    movieId: number, name: string, posterImageUrl: string, releaseDate: string, qualityProfileCustom?: string,
+    searchOriginalTitle?: boolean,
+    ) {
     const params = {
       tmdb_movie_id: movieId,
       name: name,
       poster_image_url: posterImageUrl,
       quality_profile_custom: qualityProfileCustom,
       release_date: releaseDate || null,
+      search_original_title: searchOriginalTitle || false,
     };
 
     return this.http.post(this.API_URL_WATCH_MOVIE, params, {headers: this._requestHeaders()}).pipe(

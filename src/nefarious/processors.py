@@ -43,7 +43,7 @@ class WatchProcessorBase:
                 if self.is_match(result['Title']):
                     valid_search_results.append(result)
                 else:
-                    logger_background.info('Not matched: {}'.format(result['Title']))
+                    logger_background.info('Not matching {} for {}'.format(self.tmdb_media[self._get_tmdb_title_key()], result['Title']))
 
             if valid_search_results:
 
@@ -194,7 +194,7 @@ class WatchMovieProcessor(WatchProcessorBase):
             transmission_session.download_dir, settings.UNPROCESSED_PATH, self.nefarious_settings.transmission_movie_download_dir.lstrip('/'))
 
     def _get_tmdb_title_key(self):
-        return 'title'
+        return 'original_title' if self.watch_media.search_original_title else 'title'
 
     def _get_tmdb_media(self):
         movie_result = self.tmdb_client.Movies(self.watch_media.tmdb_movie_id)
@@ -231,7 +231,7 @@ class WatchTVProcessorBase(WatchProcessorBase):
             transmission_session.download_dir, settings.UNPROCESSED_PATH, self.nefarious_settings.transmission_tv_download_dir.lstrip('/'))
 
     def _get_tmdb_title_key(self):
-        return 'name'
+        return 'original_name' if self.watch_media.search_original_title else 'name'
 
 
 class WatchTVEpisodeProcessor(WatchTVProcessorBase):

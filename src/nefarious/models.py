@@ -46,7 +46,8 @@ class NefariousSettings(models.Model):
     open_subtitles_auto = models.BooleanField(default=False, help_text='Whether to automatically download subtitles')
 
     quality_profile_tv = models.CharField(max_length=500, default=quality.PROFILE_ANY.name, choices=zip(quality.PROFILE_NAMES, quality.PROFILE_NAMES))
-    quality_profile_movies = models.CharField(max_length=500, default=quality.PROFILE_HD_720P_1080P.name, choices=zip(quality.PROFILE_NAMES, quality.PROFILE_NAMES))
+    quality_profile_movies = models.CharField(
+        max_length=500, default=quality.PROFILE_HD_720P_1080P.name, choices=zip(quality.PROFILE_NAMES, quality.PROFILE_NAMES))
 
     allow_hardcoded_subs = models.BooleanField(default=False)
 
@@ -89,6 +90,7 @@ class WatchMediaBase(models.Model):
     transmission_torrent_hash = models.CharField(max_length=100, null=True, blank=True)
     transmission_torrent_name = models.CharField(max_length=1000, null=True, blank=True)
     release_date = models.DateField(null=True, blank=True)
+    search_original_title = models.BooleanField(default=False)  # whether to use the "original" tmdb title (non-localized language)
 
     def abs_download_path(self):
         return os.path.join(settings.INTERNAL_DOWNLOAD_PATH, self.download_path)
@@ -129,6 +131,7 @@ class WatchTVShow(models.Model):
     auto_watch = models.BooleanField(default=False)  # whether to automatically watch future seasons
     auto_watch_date_updated = models.DateField(null=True, blank=True)  # date auto watch requested/updated
     quality_profile_custom = models.CharField(max_length=500, null=True, blank=True, choices=zip(quality.PROFILE_NAMES, quality.PROFILE_NAMES))
+    search_original_title = models.BooleanField(default=False)  # whether to use the "original" tmdb title (non-localized language)
 
     class Meta:
         ordering = ('name',)

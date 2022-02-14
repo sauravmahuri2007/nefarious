@@ -38,16 +38,25 @@
               </label>
             </div>
           </div>
-          <div class="d-flex justify-content-end my-2" *ngIf="userIsStaff()">
-            <div class="form-group row">
-              <label class="col-lg-6 col-form-label">Quality Profile</label>
-              <div class="col-lg-6">
-                <select class="form-control form-control-sm" [formControl]="qualityProfileControl">
-                  <option *ngFor="let profile of qualityProfiles()" [value]="profile">{{ profile }}</option>
-                </select>
-              </div>
-            </div>
-          </div>
+
+          <ngb-accordion #acc="ngbAccordion">
+            <ngb-panel title="Options">
+              <ng-template ngbPanelContent>
+                <div class="form-check text-muted form-control-sm text-right" *ngIf="userIsStaff()">
+                  <input class="form-check-input" type="checkbox" id="search-original-name" [formControl]="searchOriginalTitleControl" name="search-original-name">
+                  <label class="form-check-label" for="search-original-name" container="body" ngbTooltip="Search for videos using original title's name vs using localized language">
+                    Search using original title's name versus your chosen language
+                  </label>
+                </div>
+                <div class="form-group" *ngIf="userIsStaff()">
+                  <label>Quality Profile</label>
+                  <select class="form-control form-control-sm" [formControl]="qualityProfileControl">
+                    <option *ngFor="let profile of qualityProfiles()" [value]="profile">{{ profile }}</option>
+                  </select>
+                </div>
+              </ng-template>
+            </ngb-panel>
+          </ngb-accordion>
         </div>
       </div>
     </div>
