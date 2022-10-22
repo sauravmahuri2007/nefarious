@@ -118,22 +118,20 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/3.0/howto/static-files/
 
 STATIC_URL = '/static/'
+# By default, running via development server, staticfiles app will look
+# for files within the static/ directory of each installed app,
+# as well as in directories defined in STATICFILES_DIRS:
 STATICFILES_DIRS = [
     os.path.join(BASE_DIR, "staticassets"),
 ]
+# Where to collect static files when running python manage.py collectstatic:
 STATIC_ROOT = "staticfiles"
 
 
-REDIS_HOST = os.environ.get('REDIS_HOST', 'localhost')
-REDIS_PORT = os.environ.get('REDIS_PORT', '6379')
-
 CACHES = {
     "default": {
-        "BACKEND": "django_redis.cache.RedisCache",
-        "LOCATION": "redis://{host}:{port}/0".format(host=REDIS_HOST, port=REDIS_PORT),
-        "OPTIONS": {
-            "CLIENT_CLASS": "django_redis.client.DefaultClient",
-        }
+        "BACKEND": "django.core.cache.backends.filebased.FileBasedCache",
+        "LOCATION": os.path.join(BASE_DIR, '.file_cache')
     }
 }
 

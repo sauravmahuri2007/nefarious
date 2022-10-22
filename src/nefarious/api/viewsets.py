@@ -20,7 +20,7 @@ from nefarious.api.serializers import (
     WatchTVSeasonSerializer, WatchTVSeasonRequestSerializer,
 )
 from nefarious.models import NefariousSettings, WatchTVEpisode, WatchTVShow, WatchMovie, WatchTVSeason, WatchTVSeasonRequest
-from nefarious.tasks import watch_tv_episode_task, watch_tv_show_season_task, watch_movie_task, send_websocket_message_task
+# from nefarious.tasks import watch_tv_episode_task, watch_tv_show_season_task, watch_movie_task, send_websocket_message_task
 from nefarious.utils import (
     verify_settings_jackett, verify_settings_transmission, verify_settings_tmdb,
     fetch_jackett_indexers, destroy_transmission_result)

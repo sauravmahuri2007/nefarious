@@ -2,7 +2,7 @@ from rest_framework.decorators import action
 from rest_framework.response import Response
 
 from nefarious.models import WatchMediaBase
-from nefarious.tasks import send_websocket_message_task
+# from nefarious.tasks import send_websocket_message_task
 from nefarious.utils import destroy_transmission_result, blacklist_media_and_retry
 from nefarious import websocket
 

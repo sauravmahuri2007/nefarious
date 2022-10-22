@@ -1,7 +1,7 @@
 import os
 
 import requests
-from celery_once import AlreadyQueued
+# from celery_once import AlreadyQueued
 from django.conf import settings
 from django.utils.dateparse import parse_date
 from django.utils.decorators import method_decorator
@@ -22,10 +22,10 @@ from nefarious.notification import send_message
 from nefarious.opensubtitles import OpenSubtitles
 from nefarious.search import SEARCH_MEDIA_TYPE_MOVIE, SEARCH_MEDIA_TYPE_TV, SearchTorrents
 from nefarious.quality import PROFILES
-from nefarious.tasks import (
-    import_library_task, completed_media_task, wanted_media_task, auto_watch_new_seasons_task,
-    refresh_tmdb_configuration, wanted_tv_season_task, populate_release_dates_task,
-)
+# from nefarious.tasks import (
+#     import_library_task, completed_media_task, wanted_media_task, auto_watch_new_seasons_task,
+#     refresh_tmdb_configuration, wanted_tv_season_task, populate_release_dates_task,
+# )
 from nefarious.transmission import get_transmission_client
 from nefarious.tmdb import get_tmdb_client
 from nefarious.utils import trace_torrent_url, swap_jackett_host, is_magnet_url, logger_foreground

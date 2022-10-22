@@ -10,5 +10,5 @@ class AppConfig(AppConfig):
         - load modules during development for auto-reload functionality (watch on changes)
         """
         import nefarious.parsers  # noqa
-        import nefarious.tasks  # noqa
+        # import nefarious.tasks  # noqa
         import nefarious.signals  # noqa
